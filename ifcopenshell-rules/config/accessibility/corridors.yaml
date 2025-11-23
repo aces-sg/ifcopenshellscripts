@@ -1,0 +1,30 @@
+# BCA Accessibility Code - Corridor Width Rule
+# Reference: BCA Accessibility Code 2019, Clause 4.2
+
+rule_id: "ACC-001"
+name: "Corridor Width Requirements"
+description: |
+  Ensures corridors meet minimum width requirements for
+  accessibility and wheelchair passage.
+reference: "BCA Accessibility Code 2019, Clause 4.2"
+
+parameters:
+  # Minimum corridor width in mm
+  min_width_mm: 1200
+
+  # Minimum width for wheelchair turning (T-junction)
+  min_width_turning_mm: 1500
+
+  # Minimum width for two wheelchairs to pass
+  min_width_passing_mm: 1800
+
+# How to identify corridors
+corridor_identification:
+  space_types:
+    - "CORRIDOR"
+    - "HALLWAY"
+    - "PASSAGE"
+  name_patterns:
+    - "corridor"
+    - "hallway"
+    - "passage"

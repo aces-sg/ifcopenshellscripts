@@ -1,0 +1,28 @@
+# Fire Safety Code - Travel Distance Rule
+# Reference: Singapore Fire Code 2018, Clause 2.3
+
+rule_id: "FS-001"
+name: "Maximum Travel Distance to Exit"
+description: |
+  Ensures that the travel distance from any point in a building
+  to the nearest exit does not exceed the maximum allowed distance.
+reference: "Singapore Fire Code 2018, Clause 2.3"
+
+parameters:
+  # Maximum travel distance in meters based on building type
+  max_distance_sprinklered_m: 60
+  max_distance_unsprinklered_m: 45
+
+  # Assume sprinklered unless property indicates otherwise
+  default_sprinklered: true
+
+  # Distance measurement mode: "direct" or "path"
+  measurement_mode: "direct"
+
+# IFC elements to check
+target_elements:
+  - IfcSpace
+
+# Exit types to consider
+exit_types:
+  - IfcDoor  # External doors or doors to protected stairs

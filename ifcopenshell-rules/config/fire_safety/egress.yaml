@@ -1,0 +1,27 @@
+# Fire Safety Code - Egress Width Rule
+# Reference: Singapore Fire Code 2018, Clause 2.4
+
+rule_id: "FS-002"
+name: "Minimum Egress Width"
+description: |
+  Ensures that exit doors and corridors used for egress
+  meet minimum width requirements based on occupant load.
+reference: "Singapore Fire Code 2018, Clause 2.4"
+
+parameters:
+  # Minimum door width in mm
+  min_door_width_mm: 850
+
+  # Minimum corridor width in mm (for escape routes)
+  min_corridor_width_mm: 1200
+
+  # Width per person for calculating required width (mm/person)
+  width_per_person_mm: 5
+
+  # Maximum occupant load per exit
+  max_occupants_per_exit: 60
+
+# IFC elements to check
+target_elements:
+  - IfcDoor
+  - IfcSpace  # Corridors

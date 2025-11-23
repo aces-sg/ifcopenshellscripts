@@ -1,0 +1,24 @@
+# BCA Accessibility Code - Door Clearance Rule
+# Reference: BCA Accessibility Code 2019, Clause 5.1
+
+rule_id: "ACC-002"
+name: "Door Clear Opening Width"
+description: |
+  Ensures doors provide adequate clear opening width
+  for wheelchair access.
+reference: "BCA Accessibility Code 2019, Clause 5.1"
+
+parameters:
+  # Minimum clear opening width in mm
+  min_clear_width_mm: 850
+
+  # Minimum clear opening width for main entrance
+  min_main_entrance_width_mm: 900
+
+  # Minimum clear opening width for double doors (at least one leaf)
+  min_double_door_leaf_mm: 850
+
+# Apply to all doors unless excluded
+exclude_door_types:
+  - "TRAPDOOR"
+  - "GATE"

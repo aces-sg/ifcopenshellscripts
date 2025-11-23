@@ -1,0 +1,9 @@
+services:
+  ifcopenshell-rules:
+    build: .
+    platform: linux/amd64
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+      - ../outputs:/app/outputs
+    command: ["--ifc-path", "data/test.ifc", "--config-dir", "config", "--output", "outputs/compliance_report.json"]

@@ -1,0 +1,26 @@
+# Building Control - Setback Rule
+# Reference: URA Development Control Guidelines
+
+rule_id: "BC-001"
+name: "Building Setback Requirements"
+description: |
+  Ensures building elements maintain required setback distances
+  from property boundaries.
+reference: "URA Development Control Guidelines"
+
+parameters:
+  # Minimum setback from front boundary in meters
+  front_setback_m: 7.5
+
+  # Minimum setback from side boundary in meters
+  side_setback_m: 3.0
+
+  # Minimum setback from rear boundary in meters
+  rear_setback_m: 3.0
+
+  # Building type affects setback requirements
+  # residential, commercial, industrial
+  building_type: "residential"
+
+# Note: This rule requires boundary information in the IFC model
+# typically as IfcSite with property boundaries defined
