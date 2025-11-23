@@ -98,6 +98,134 @@ ifcopenshell-rules/
 | ACC-002 | Accessibility | Door Clear Opening Width | BCA Accessibility Code 2019, Clause 5.1 |
 | BC-001 | Building Control | Building Setback Requirements | URA Development Control Guidelines |
 
+## Development Strategy: 12 Foundational Patterns
+
+We've identified 12 foundational patterns that cover the majority of Singapore Code of Practice geometric checks. Each pattern establishes a reusable utility.
+
+### Core Patterns to Establish
+
+| Pattern | Utility Created | Rules It Unlocks |
+|---------|-----------------|------------------|
+| Width | `get_element_width()` | Door, corridor, stair, ramp width checks |
+| Height | `get_space_height()` | Ceiling heights, handrail heights |
+| Area | `get_space_area()` | Room minimums, floor areas |
+| Gradient | `calculate_gradient()` | Ramps, stairs, accessible routes |
+| Multi-dimension | `get_element_dimensions()` | Stair riser+tread+width, door height+width |
+| Property | `validate_property()` | Fire ratings, materials, acoustic ratings |
+| Counting | `count_by_storey()` | Exit count, parking count, toilet count |
+| Ratio | `calculate_ratio()` | Window-to-floor, ventilation areas |
+| Connectivity | `build_connectivity_graph()` | Travel distance, accessible routes |
+| **Proximity** | `check_separation()` | Exit separation, element distances |
+| **Clearance** | `check_clearance_zone()` | Door maneuvering, landing areas |
+| **Containment** | `check_enclosure()` | Fire compartments, protected lobbies |
+
+### The 12 Foundational Rules
+
+| Priority | Rule ID | Name | Pattern | Phase |
+|----------|---------|------|---------|-------|
+| 1 | ACC-002 | Door Clear Width | Width | Done |
+| 2 | ACC-001 | Corridor Width | Width | Done |
+| 3 | ACC-003 | Ramp Gradient | Gradient | Phase 1 |
+| 4 | BC-002 | Ceiling Height | Height | Phase 1 |
+| 5 | FS-006 | Stair Dimensions | Multi-dimension | Phase 2 |
+| 6 | FS-003 | Fire Door Rating | Property | Phase 2 |
+| 7 | FS-004 | Exit Count per Floor | Counting | Phase 3 |
+| 8 | FS-005 | Exit Separation | Proximity | Phase 3 |
+| 9 | ACC-006 | Door Maneuvering Clearance | Clearance | Phase 4 |
+| 10 | FS-008 | Fire Compartment Integrity | Containment | Phase 4 |
+| 11 | FS-007 | Space Connectivity | Connectivity | Phase 5 |
+| 12 | BC-004 | Window-to-Floor Ratio | Ratio | Phase 5 |
+
+### Implementation Phases
+
+- **Phase 1**: Basic measurements (gradient, height)
+- **Phase 2**: Complex elements (multi-dimension, property validation)
+- **Phase 3**: Spatial analysis (counting, proximity)
+- **Phase 4**: Zone analysis (clearance, containment)
+- **Phase 5**: Advanced analysis (connectivity, ratios)
+
+---
+
+## Rule Implementation Status
+
+This table tracks the implementation status of each rule. **Dev team: please update as you work on rules.**
+
+### Status Legend
+- `Not Started` - Rule not yet implemented
+- `In Progress` - Currently being developed
+- `Implemented` - Code complete, needs testing
+- `Needs Review` - Implementation needs verification against actual code requirements
+- `Verified` - Tested and confirmed accurate
+
+### Accuracy Legend
+- `Exact` - Matches code requirement precisely
+- `Approximate` - Simplified implementation (e.g., straight-line distance vs actual walking path)
+- `Partial` - Only some aspects of the requirement implemented
+
+### Implemented Rules
+
+| Rule ID | Code Reference | Status | Complexity | Accuracy | Assignee | Notes | Last Updated |
+|---------|----------------|--------|------------|----------|----------|-------|--------------|
+| FS-001 | Fire Code 2018, Cl. 2.3 | Needs Review | Medium | Approximate | - | Uses straight-line distance, not actual walking path. Consider Level 2 pathfinding via space connectivity graph. | 2024-11-23 |
+| FS-002 | Fire Code 2018, Cl. 2.4 | Implemented | Low | Partial | - | Checks door/corridor width. Does not yet calculate capacity based on Table 2.2A occupancy factors. | 2024-11-23 |
+| ACC-001 | Accessibility Code 2019, Cl. 4.2 | Implemented | Medium | Exact | - | Corridor width from bounding box. Identifies corridors by space type or name pattern. | 2024-11-23 |
+| ACC-002 | Accessibility Code 2019, Cl. 5.1 | Implemented | Low | Exact | - | Door clear opening width check. Main entrance detection by name keywords. | 2024-11-23 |
+| BC-001 | URA Guidelines | Needs Review | Medium | Approximate | - | Requires IfcSite boundary definition. Uses bounding box comparison. | 2024-11-23 |
+
+### Planned Rules (Prioritized by Pattern)
+
+**Phase 1 - Basic Measurements**
+
+| Rule ID | Pattern | Code Reference | Requirement | Status | Assignee | Last Updated |
+|---------|---------|----------------|-------------|--------|----------|--------------|
+| ACC-003 | Gradient | Accessibility Code 2019, Cl. 3.4 | **Ramp Gradient**: Kerb ramps max 1:10. General ramps per Table 5 (gradient varies by rise). Landings at top/bottom. Contrasting colour for rises >200 mm. | Not Started | - | - |
+| BC-002 | Height | BCA Approved Document | **Ceiling Height**: Min 2.4 m floor-to-ceiling. Headroom min 2.0 m under beams/ducts. [Note: verify 2.4 m vs 2.6 m for specific building types] | Not Started | - | - |
+
+**Phase 2 - Complex Elements**
+
+| Rule ID | Pattern | Code Reference | Requirement | Status | Assignee | Last Updated |
+|---------|---------|----------------|-------------|--------|----------|--------------|
+| FS-006 | Multi-dimension | Fire Code, Cl. 2.2/2.3 | **Stair Dimensions**: Tread min 250 mm (275 mm non-industrial). Max width 2000 mm, min 1000 mm. Divide by handrails if >2000 mm. Landing every 18 risers. Uniform riser/tread per flight. | Not Started | - | - |
+| FS-003 | Property | Fire Code, Cl. 3.9 | **Fire Door Rating**: Min 30-min FRP for doors to exits, protected staircases, lobbies. Min 1-hour for exit corridor doors. Self-closing device required. Test standard: BS 476-22 or SS 332:2018. | Not Started | - | - |
+
+**Phase 3 - Spatial Analysis**
+
+| Rule ID | Pattern | Code Reference | Requirement | Status | Assignee | Last Updated |
+|---------|---------|----------------|-------------|--------|----------|--------------|
+| FS-004 | Counting | Fire Code, Cl. 2.2 | **Exit Count**: Per Table 2.2A based on occupant load and Purpose Group. Each exit must serve ≥50% of occupant load. Exit width in 500 mm units. Min door width 850 mm. | Not Started | - | - |
+| FS-005 | Proximity | Fire Code, Cl. 2.2 | **Exit Separation**: Required exits must be "remotely located" - min separation ≥ ½ diagonal distance of floor area served. | Not Started | - | - |
+
+**Phase 4 - Zone Analysis**
+
+| Rule ID | Pattern | Code Reference | Requirement | Status | Assignee | Last Updated |
+|---------|---------|----------------|-------------|--------|----------|--------------|
+| ACC-006 | Clearance | Accessibility Code 2019, Cl. 5.1 | **Door Maneuvering Clearance**: Min 1500 mm × 1500 mm clear floor space at accessible doors for wheelchair turning. Level landing required. | Not Started | - | - |
+| FS-008 | Containment | Fire Code, Cl. 3.1 | **Fire Compartment Integrity**: All boundaries of fire compartment must be fire-rated. All openings must be protected with fire doors/dampers matching wall rating. | Not Started | - | - |
+
+**Phase 5 - Advanced Analysis**
+
+| Rule ID | Pattern | Code Reference | Requirement | Status | Assignee | Last Updated |
+|---------|---------|----------------|-------------|--------|----------|--------------|
+| FS-007 | Connectivity | Fire Code, Cl. 2.3 | **Travel Distance**: Max per Table 2.2A by Purpose Group. Example: 60 m (sprinklered office, two-way), 45 m (unsprinklered). Direct distance = ⅔ of max. Measured along actual path. | Not Started | - | - |
+| BC-004 | Ratio | SS553:2016 | **Window Ratio**: [TBD - Singapore uses SS553:2016 for ventilation. Specific percentage not confirmed. Dev team to verify from standard.] | Not Started | - | - |
+
+**Other Planned Rules (Uses Established Patterns)**
+
+| Rule ID | Pattern | Code Reference | Requirement | Status | Assignee | Last Updated |
+|---------|---------|----------------|-------------|--------|----------|--------------|
+| ACC-004 | Width | Accessibility Code 2019, Cl. 3.4 | **Ramp Width**: Min 1200 mm clear width. Kerb ramps min 900 mm. | Not Started | - | - |
+| ACC-005 | Connectivity | Accessibility Code 2019 | **Accessible Route**: Continuous accessible path from parking/drop-off to main entrance. Ramps where level changes >15 mm. | Not Started | - | - |
+| BC-003 | Area | Building Control Reg | **Room Area**: [TBD - Not confirmed in Building Control Regs. May be HDB-specific. Dev team to verify from primary source.] | Not Started | - | - |
+
+### Known Limitations
+
+| Area | Limitation | Workaround/Future Plan |
+|------|------------|------------------------|
+| Travel Distance | Straight-line calculation underestimates actual walking distance | Implement space connectivity graph (Level 2 pathfinding) using IfcRelSpaceBoundary |
+| Pathfinding | No true navigation mesh pathfinding | Consider external library or simplified graph approach |
+| Occupancy Classification | Rules don't auto-detect building/space occupancy type | Requires manual config or property extraction |
+| Unit Conversion | Assumes model units are meters/millimeters | Add unit detection from IfcProject |
+
 ## Configuration Format
 
 Rules are configured via YAML files. Each config file defines:
