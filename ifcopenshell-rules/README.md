@@ -100,24 +100,36 @@ ifcopenshell-rules/
 
 ## Development Strategy: 12 Foundational Patterns
 
-We've identified 12 foundational patterns that cover the majority of Singapore Code of Practice geometric checks. Each pattern establishes a reusable utility.
+We've identified 12 foundational patterns that cover the majority of Singapore Code of Practice geometric checks. Patterns are organized into three tiers based on complexity.
 
-### Core Patterns to Establish
+### Pattern Taxonomy
 
-| Pattern | Utility Created | Rules It Unlocks |
-|---------|-----------------|------------------|
-| Width | `get_element_width()` | Door, corridor, stair, ramp width checks |
-| Height | `get_space_height()` | Ceiling heights, handrail heights |
-| Area | `get_space_area()` | Room minimums, floor areas |
-| Gradient | `calculate_gradient()` | Ramps, stairs, accessible routes |
-| Multi-dimension | `get_element_dimensions()` | Stair riser+tread+width, door height+width |
-| Property | `validate_property()` | Fire ratings, materials, acoustic ratings |
-| Counting | `count_by_storey()` | Exit count, parking count, toilet count |
-| Ratio | `calculate_ratio()` | Window-to-floor, ventilation areas |
-| Connectivity | `build_connectivity_graph()` | Travel distance, accessible routes |
-| **Proximity** | `check_separation()` | Exit separation, element distances |
-| **Clearance** | `check_clearance_zone()` | Door maneuvering, landing areas |
-| **Containment** | `check_enclosure()` | Fire compartments, protected lobbies |
+**Tier 1 — Primitive Checks** (atomic operations on single elements)
+
+| Pattern | Utility | Rules It Unlocks |
+|---------|---------|------------------|
+| Dimension | `get_dimension()` | Door/corridor/stair width, ceiling height, room area, riser/tread depth |
+| Count | `count_elements()` | Exit count per floor, staircase count, toilet count, parking count |
+| Property | `get_property()` | Fire ratings, materials, acoustic ratings, classifications |
+| Position | `get_position()` | Ventilation opening height above floor, handrail height, sign placement |
+
+**Tier 2 — Relational Checks** (compare two values or elements)
+
+| Pattern | Utility | Rules It Unlocks |
+|---------|---------|------------------|
+| Separation | `check_separation()` | Exit separation, setback from boundary, distance between elements |
+| Ratio | `calculate_ratio()` | Window-to-floor area, ventilation % of floor area, gradient (rise/run) |
+| Range | `check_in_range()` | Parapet height 1.0–1.1m, door width 850–1000mm, gradient 1:12 to 1:20 |
+| Equality | `check_match()` | Landing width = stair width, uniform riser heights |
+
+**Tier 3 — Complex Checks** (multi-element spatial analysis)
+
+| Pattern | Utility | Rules It Unlocks |
+|---------|---------|------------------|
+| Containment | `check_enclosure()` | Fire compartment integrity, protected lobby enclosure |
+| Connectivity | `check_path()` | Travel distance, accessible routes, dead-end detection |
+| Uniformity | `check_uniform()` | Stair riser/tread consistency, handrail continuity |
+| Zone | `check_zone_clear()` | Door maneuvering clearance, landing areas, wheelchair turning space |
 
 ### The 12 Foundational Rules
 
